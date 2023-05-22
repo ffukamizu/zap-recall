@@ -163,15 +163,15 @@ const FlippedQuestion = styled.div`
 
   img {
     height: 17px;
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
   }
-
+  
   ion-icon {
     font-size: 28px;
     color: #333333;
     --ionicon-stroke-width: 40px;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
   }
 `;
 
