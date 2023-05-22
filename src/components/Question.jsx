@@ -63,7 +63,7 @@ export default function Question(props) {
       </QuestionContainer>
       <FlippedQuestion state={questionState} data-test="flashcard">
         <p data-test="flashcard-text">{question}</p>
-        <button onClick={() => getAnswer()} data-test="turn-btn"><img src='./public/assets/seta_virar.png' alt='virar'></img></button>
+        <button onClick={() => getAnswer()} data-test="turn-btn"><ion-icon name="refresh-outline"></ion-icon></button>
       </FlippedQuestion>
       <FlippedAnswer state={answerState} data-test="flashcard">
         <p data-test="flashcard-text">{answer}</p>
