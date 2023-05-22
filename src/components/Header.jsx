@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import LogoIcon from "public/assets/logo.png";
+import LogoIcon from "./../../public/assets/logo.png";
 
 export default function Header() {
   return (
