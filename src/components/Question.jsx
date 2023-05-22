@@ -10,6 +10,7 @@ export default function Question(props) {
   let [buttonPressed, setButtonPressed] = useState("#333333");
   let [statusIcon, setStatusIcon] = useState("play-outline");
   let [buttonDisable, setButtonDisable] = useState(false);
+  let [dataTestValue, setDataTestValue] = useState('');
 
   function flipCard() {
     setCardState(false);
@@ -29,6 +30,7 @@ export default function Question(props) {
     setStatusIcon("close-circle");
     setButtonDisable(true);
     setCardCounter(cardCounter);
+    setDataTestValue("no-icon");
   }
 
   function getYellowButton() {
@@ -39,6 +41,7 @@ export default function Question(props) {
     setStatusIcon("help-circle");
     setButtonDisable(true);
     setCardCounter(cardCounter);
+    setDataTestValue("partial-icon");
   }
 
   function getGreenButton() {
@@ -49,17 +52,18 @@ export default function Question(props) {
     setStatusIcon("checkmark-circle");
     setButtonDisable(true);
     setCardCounter(cardCounter);
+    setDataTestValue("zap-icon");
   }
 
   return (
     <div>
       <QuestionContainer click={buttonPressed} state={cardState}  data-test="flashcard" >
         <p data-test="flashcard-text">Pergunta {index + 1}</p>
-        <button disabled={buttonDisable} onClick={() => flipCard()} data-test="play-btn"><ion-icon  name={statusIcon}></ion-icon></button>
+        <button disabled={buttonDisable} onClick={() => flipCard()} data-test="play-btn"><ion-icon  name={statusIcon} data-test={dataTestValue}></ion-icon></button>
       </QuestionContainer>
       <FlippedQuestion state={questionState} data-test="flashcard">
         <p data-test="flashcard-text">{question}</p>
-        <ion-icon onClick={() => getAnswer()} name="refresh-outline" data-test="turn-btn"></ion-icon>
+        <button onClick={() => getAnswer()} data-test="turn-btn"><img src='./public/assets/seta_virar.png' alt='virar'></img></button>
       </FlippedQuestion>
       <FlippedAnswer state={answerState} data-test="flashcard">
         <p data-test="flashcard-text">{answer}</p>
@@ -151,13 +155,23 @@ const FlippedQuestion = styled.div`
     color: #333333;
   }
 
+  button {
+    background: #ffffd5;
+    border-style: solid;
+    border-color: #ffffd5;
+  }
+
+  img {
+    height: 17px;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }
+
   ion-icon {
     font-size: 28px;
     color: #333333;
     --ionicon-stroke-width: 40px;
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
   }
 `;
 
@@ -189,8 +203,8 @@ const FlippedAnswer = styled.div`
     width: 270px;
     display: flex;
     justify-content: space-between;
-    margin-left: 2px;
-    gap: 16px;
+    margin-left: 1px;
+    gap: 19px;
     position: relative;
   }
 `;
