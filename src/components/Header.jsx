@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import LogoIcon from "public/assets/logo.png";
 
 export default function Header() {
   return (
     <Logo>
-      <img src="./public/assets/logo.png" alt="logo icon" />
+      <img src={LogoIcon} alt="logo icon" />
       <h1>ZapRecall</h1>
     </Logo>
   );
