@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
-export default function Footer() {
+export default function Footer(props) {
+    let {counter, deckSize} = props;
   return (
-    <FooterBar>
-      <p>Question 1/3</p>
+    <FooterBar data-test="footer">
+      <p>
+        {counter}/{deckSize} CONCLUÍDOS
+      </p>
     </FooterBar>
   );
 }
@@ -29,3 +32,4 @@ const FooterBar = styled.footer`
     color: #333333;
   }
 `;
+ 

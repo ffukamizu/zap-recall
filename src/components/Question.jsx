@@ -2,11 +2,14 @@ import styled from "styled-components";
 import { useState } from "react";
 
 export default function Question(props) {
-  const { index, question, answer } = props;
+  let { index, question, answer, cardCounter, setCardCounter } = props;
 
   let [cardState, setCardState] = useState(true);
   let [questionState, setQuestionState] = useState(false);
   let [answerState, setAnswerState] = useState(false);
+  let [buttonPressed, setButtonPressed] = useState("#333333");
+  let [statusIcon, setStatusIcon] = useState("play-outline");
+  let [buttonDisable, setButtonDisable] = useState(false);
 
   function flipCard() {
     setCardState(false);
@@ -18,27 +21,63 @@ export default function Question(props) {
     setAnswerState(true);
   }
 
+  function getRedButton() {
+    cardCounter++;
+    setCardState(true);
+    setAnswerState(false);
+    setButtonPressed("#FF3030");
+    setStatusIcon("close-circle");
+    setButtonDisable(true);
+    setCardCounter(cardCounter);
+  }
+
+  function getYellowButton() {
+    cardCounter++;
+    setCardState(true);
+    setAnswerState(false);
+    setButtonPressed("#FF922E");
+    setStatusIcon("help-circle");
+    setButtonDisable(true);
+    setCardCounter(cardCounter);
+  }
+
+  function getGreenButton() {
+    cardCounter++;
+    setCardState(true);
+    setAnswerState(false);
+    setButtonPressed("#2FBE34");
+    setStatusIcon("checkmark-circle");
+    setButtonDisable(true);
+    setCardCounter(cardCounter);
+  }
+
   return (
     <div>
-      <QuestionContainer state={cardState} onClick={() => flipCard()}>
-        <p>Pergunta {index + 1}</p>
-        <ion-icon name="play-outline"></ion-icon>
+      <QuestionContainer disabled={buttonDisable} click={buttonPressed} state={cardState} onClick={() => flipCard()} data-test="flashcard" data-test="play-btn">
+        <p data-test="flashcard-text">Pergunta {index + 1}</p>
+        <ion-icon name={statusIcon}></ion-icon>
       </QuestionContainer>
-      <FlippedQuestion state={questionState}>
-        <p>{question}</p>
-        <ion-icon onClick={() => getAnswer()} name="refresh-outline"></ion-icon>
+      <FlippedQuestion state={questionState} data-test="flashcard">
+        <p data-test="flashcard-text">{question}</p>
+        <ion-icon onClick={() => getAnswer()} name="refresh-outline" data-test="turn-btn"></ion-icon>
       </FlippedQuestion>
-      <FlippedAnswer state={answerState}>
-        <p>{answer}</p>
+      <FlippedAnswer state={answerState} data-test="flashcard">
+        <p data-test="flashcard-text">{answer}</p>
         <div>
           <RedButton>
-            <button>Não lembrei</button>
+            <button onClick={() => getRedButton()} data-test="no-btn">
+              Não lembrei
+            </button>
           </RedButton>
           <YellowButton>
-            <button>Quase não lembrei</button>
+            <button onClick={() => getYellowButton()} data-test="partial-btn">
+              Quase não lembrei
+            </button>
           </YellowButton>
           <GreenButton>
-            <button>Zap!</button>
+            <button onClick={() => getGreenButton()} data-test="zap-btn">
+              Zap!
+            </button>
           </GreenButton>
         </div>
       </FlippedAnswer>
@@ -46,9 +85,11 @@ export default function Question(props) {
   );
 }
 
-const QuestionContainer = styled.div`
-  height: 131px;
-  width: 400px;
+const QuestionContainer = styled.button`
+  height: 65px;
+  width: 330px;
+  max-width: 600px;
+  min-width: 300px;
   background: #ffffff;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
@@ -56,7 +97,10 @@ const QuestionContainer = styled.div`
   align-items: center;
   padding-inline: 15px;
   margin-block: 12px;
+  border-style: solid;
+  border-color: #ffffff;
   display: ${(props) => (props.state ? "flex" : "none")};
+  text-decoration: ${(props) => (props.click !== "#333333" ? "line-through" + props.click : "none")};
 
   p {
     font-family: "Recursive";
@@ -64,20 +108,23 @@ const QuestionContainer = styled.div`
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #333333;
+    color: ${(props) => props.click};
+    text-decoration-color: ${(props) => props.click};
     overflow-wrap: break-word;
   }
-
   ion-icon {
     font-size: 28px;
     color: #333333;
     --ionicon-stroke-width: 40px;
+    color: ${(props) => props.click};
   }
 `;
 
 const FlippedQuestion = styled.div`
   height: 131px;
-  width: 400px;
+  width: 300px;
+  max-width: 600px;
+  min-width: 300px;
   background: #ffffd5;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
@@ -91,9 +138,9 @@ const FlippedQuestion = styled.div`
   p {
     font-family: "Recursive";
     font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
     color: #333333;
   }
 
@@ -109,7 +156,7 @@ const FlippedQuestion = styled.div`
 
 const FlippedAnswer = styled.div`
   height: 131px;
-  width: 400px;
+  width: 300px;
   background: #ffffd5;
   box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
