@@ -53,9 +53,9 @@ export default function Question(props) {
 
   return (
     <div>
-      <QuestionContainer disabled={buttonDisable} click={buttonPressed} state={cardState} onClick={() => flipCard()} data-test="flashcard" data-test="play-btn">
+      <QuestionContainer click={buttonPressed} state={cardState}  data-test="flashcard" >
         <p data-test="flashcard-text">Pergunta {index + 1}</p>
-        <ion-icon name={statusIcon}></ion-icon>
+        <button disabled={buttonDisable} onClick={() => flipCard()} data-test="play-btn"><ion-icon  name={statusIcon}></ion-icon></button>
       </QuestionContainer>
       <FlippedQuestion state={questionState} data-test="flashcard">
         <p data-test="flashcard-text">{question}</p>
@@ -85,9 +85,9 @@ export default function Question(props) {
   );
 }
 
-const QuestionContainer = styled.button`
+const QuestionContainer = styled.div`
   height: 65px;
-  width: 330px;
+  width: 300px;
   max-width: 600px;
   min-width: 300px;
   background: #ffffff;
@@ -112,6 +112,13 @@ const QuestionContainer = styled.button`
     text-decoration-color: ${(props) => props.click};
     overflow-wrap: break-word;
   }
+
+  button {
+    background: #ffffff;
+    border-style: solid;
+    border-color: #ffffff;
+  }
+
   ion-icon {
     font-size: 28px;
     color: #333333;
@@ -173,6 +180,8 @@ const FlippedAnswer = styled.div`
     font-size: 18px;
     line-height: 22px;
     color: #333333;
+    min-height: 95px;
+    max-height: 95px;
   }
 
   div {
@@ -180,8 +189,9 @@ const FlippedAnswer = styled.div`
     width: 270px;
     display: flex;
     justify-content: space-between;
-    bottom: 15px;
-    left: 50px;
+    margin-left: 2px;
+    gap: 16px;
+    position: relative;
   }
 `;
 
